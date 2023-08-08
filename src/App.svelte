@@ -24,8 +24,89 @@
   // 2. Project sepecific imports
   import { getData, setColors, getBreaks, getColor } from './utils.js';
   import { colors } from './config.js';
-  import { LineChart } from '../libs/@onsvisual/svelte-charts';
-
+  import { BarChart } from '../libs/@onsvisual/svelte-charts';
+  let data = [
+    {
+      year: 2017,
+      value: 320,
+      group: 'apples',
+    },
+    {
+      year: 2017,
+      value: 480,
+      group: 'bananas',
+    },
+    {
+      year: 2017,
+      value: 640,
+      group: 'cherries',
+    },
+    {
+      year: 2017,
+      value: 400,
+      group: 'dates',
+    },
+    {
+      year: 2018,
+      value: 640,
+      group: 'apples',
+    },
+    {
+      year: 2018,
+      value: 960,
+      group: 'bananas',
+    },
+    {
+      year: 2018,
+      value: 640,
+      group: 'cherries',
+    },
+    {
+      year: 2018,
+      value: 400,
+      group: 'dates',
+    },
+    {
+      year: 2019,
+      value: 1600,
+      group: 'apples',
+    },
+    {
+      year: 2019,
+      value: 1440,
+      group: 'bananas',
+    },
+    {
+      year: 2019,
+      value: 960,
+      group: 'cherries',
+    },
+    {
+      year: 2019,
+      value: 400,
+      group: 'dates',
+    },
+    {
+      year: 2020,
+      value: 3840,
+      group: 'apples',
+    },
+    {
+      year: 2020,
+      value: 1920,
+      group: 'bananas',
+    },
+    {
+      year: 2020,
+      value: 960,
+      group: 'cherries',
+    },
+    {
+      year: 2020,
+      value: 400,
+      group: 'dates',
+    },
+  ];
   // # ============================================================================ #
   // 3. Core config
   // Set theme globally (options are 'light', 'dark' or 'lightblue')
@@ -40,14 +121,21 @@
   const threshold = 0.65;
 
   //// State
-
-  let animation = getMotion(); // Set animation preference depending on browser preference
+  let animation = true;
   let hover = true;
   let hovered = null;
   let hoveredScatter = null;
   let select = true;
   let selected = null;
   let selectedScatter = null;
+  let barchart1 = {
+    options: ['apples', 'bananas', 'cherries', 'dates'],
+    selected: 'apples',
+  };
+  let barchart2 = {
+    options: ['stacked', 'comparison', 'barcode', 'grouped'],
+    selected: 'stacked',
+  };
   let id = {}; // Object to hold visible section IDs of Scroller components
   let idPrev = {}; // Object to keep track of previous IDs, to compare for changes
   onMount(() => {
@@ -81,106 +169,9 @@
   // # ============================================================================ #
   //   5.1 Scrolly actions *********
   let step = 'chart01';
-  let data; // initializes async in 5.5
-  // let yKey = 'apples';
-  let yMin = 0;
-  // In this fake data. flowers = 'philly' and apples = 'us average'
-  let groups_template = [
-    { group: 'apples', color: '#206095' },
-    { group: 'cherries', color: '#A8BD3A' },
-    { group: 'dates', color: '#003C57' },
-    { group: 'flowers', color: '#27A0CC' },
-  ];
-  let colors_all = groups_template.map((d) => d.color);
-  let groups_all = groups_template.map((d) => d.group);
-  let groups_normal = groups_all.filter((d) => d != 'flowers');
-  let groups_selected = groups_normal;
-  let groups_to_label = null;
-  let longitudinal_annotation_layer = false;
-  let xMax;
-  let yMax = 85;
   let actions = {
     chart: {
-      chart01: () => {
-        data = data;
-        yMin = 0;
-        yMax = 85;
-        groups_selected = groups_normal;
-        groups_to_label = null;
-        step = 'chart01';
-        xMax = null;
-        longitudinal_annotation_layer = false;
-      },
-      chart02: () => {
-        data = data;
-        yMin = 65;
-        yMax = 85;
-        groups_selected = groups_normal;
-        groups_to_label = null;
-        step = 'chart02';
-        xMax = null;
-        longitudinal_annotation_layer = false;
-      },
-      chart03: () => {
-        data = data;
-        yMin = 65;
-        yMax = 85;
-        groups_selected = groups_all;
-        groups_to_label = null;
-        step = 'chart03';
-        xMax = null;
-        longitudinal_annotation_layer = false;
-      },
-      chart04: () => {
-        data = data;
-        yMin = 65;
-        yMax = 85;
-        groups_selected = ['flowers'];
-        groups_to_label = null;
-        step = 'chart04';
-        xMax = null;
-        longitudinal_annotation_layer = false;
-      },
-      chart05: () => {
-        data = data;
-        yMin = 70;
-        yMax = 75;
-        groups_selected = ['flowers'];
-        groups_to_label = ['flowers'];
-        step = 'chart05';
-        xMax = 1998;
-        longitudinal_annotation_layer = false;
-      },
-      chart06: () => {
-        data = data;
-        yMin = 70;
-        yMax = 75;
-        groups_selected = ['flowers'];
-        groups_to_label = ['flowers'];
-        step = 'chart06';
-        xMax = 2008;
-        longitudinal_annotation_layer = false;
-      },
-      chart07: () => {
-        data = data;
-        yMin = 70;
-        yMax = 75;
-        groups_selected = ['flowers'];
-        groups_to_label = null;
-        step = 'chart07';
-        xMax = null;
-        longitudinal_annotation_layer = false;
-      },
-      chart08: () => {
-        data = data;
-        yMin = 70;
-        yMax = 75;
-        groups_selected = ['flowers'];
-        groups_to_label = null;
-        step = 'chart08';
-        xMax = null;
-        longitudinal_annotation_layer = true;
-      },
+      chart01: () => {},
     },
   };
 
@@ -190,9 +181,16 @@
   // # ============================================================================ #
   //   5.5 Initialisation code (get data)
 
-  getData(`./data/data_le.csv`).then((arr) => {
-    data = arr;
-  });
+  // getData(`./data/data_le.csv`).then((arr) => {
+  //   data = arr;
+  // });
+  const doHover = (e) => (hovered = e.detail.id);
+  const doSelect = (e) => (selected = e.detail.id);
+  const doHoverScatter = (e) => (hoveredScatter = e.detail.id);
+  const doSelectScatter = (e) => (selectedScatter = e.detail.id);
+
+  console.log('data');
+  console.log(data);
 </script>
 
 <!-- 
@@ -257,26 +255,34 @@
     <figure>
       <div class="col-wide height-full">
         <div class="chart">
-          {#if data && id && yMin >= 0}
-            <LineChart
-              {data}
-              height={500}
-              xKey="year"
-              area={false}
-              yKey="value"
-              colors={colors_all}
-              {groups_all}
-              {groups_selected}
-              {groups_to_label}
-              {step}
-              {yMin}
-              {yMax}
-              {xMax}
-              areaOpacity={0.3}
+          {#if data && id}
+            <BarChart
+              data={data.filter((d) => d.group == barchart1.selected)}
+              xKey="value"
+              yKey="year"
+              title="Single variable bar chart"
+              footer="Source: Fictitious data about fruit, 2020."
+              {hover}
+              {hovered}
+              on:hover={doHover}
+              {select}
+              {selected}
+              on:select={doSelect}
               {animation}
-              zKey="group"
-              {longitudinal_annotation_layer}
-            />
+            >
+              <div slot="options" class="controls small">
+                {#each barchart1.options as option}
+                  <label
+                    ><input
+                      type="radio"
+                      bind:group={barchart1.selected}
+                      value={option}
+                    />
+                    {option}</label
+                  >
+                {/each}
+              </div>
+            </BarChart>
           {/if}
         </div>
       </div>
