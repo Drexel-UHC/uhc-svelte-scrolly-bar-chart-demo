@@ -137,7 +137,7 @@
               xKey="year"
               yKey="value"
               zKey="group"
-              mode={barchart2.selected}
+              mode={'stacked'}
               title="Stacked / comparative column chart"
               {hover}
               {hovered}
@@ -148,7 +148,7 @@
               {animation}
               legend
             >
-              <div slot="options" class="controls small">
+              <!-- <div slot="options" class="controls small">
                 {#each barchart2.options as option}
                   <label
                     ><input
@@ -159,7 +159,7 @@
                     {option}</label
                   >
                 {/each}
-              </div>
+              </div> -->
             </ColumnChart>
           {/if}
         </div>

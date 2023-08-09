@@ -13,10 +13,6 @@
   export let overlayFill = false;
 
   let coords = $custom.coords;
-  $: {
-    console.log('Column.svelte');
-    console.log($coords);
-  }
   let idKey = $custom.idKey;
 
   let colorHover = $custom.colorHover ? $custom.colorHover : 'orange';
@@ -27,6 +23,11 @@
   let lineWidth = $custom.lineWidth ? $custom.lineWidth : 2;
   let markerWidth = $custom.markerWidth ? $custom.markerWidth : 2.5;
   $: mode = $custom.mode ? $custom.mode : 'default';
+
+  $: makePoints = (x0, x1, y0, y1) => {
+    y0 = Math.abs(y1 - y0) < markerWidth ? y1 + markerWidth : y0;
+    return `${x0},${y0} ${x0},${y1} ${x1},${y1} ${x1},${y0}`;
+  };
 
   function doHover(e, d) {
     if (hover) {
@@ -49,24 +50,36 @@
       });
     }
   }
+
+  $: {
+    console.log('Column.svelte');
+    console.log(`$coords`);
+    console.log($coords);
+    $coords.map((group, i) => {
+      group.map((d, j) => {
+        console.log(`$coords[${i}][${j}]`);
+        console.log(d);
+        console.log(
+          (mode == 'barcode' || (mode == 'comparison' && i > 0)) &&
+            $yScale(0) - $yScale(d.h) < markerWidth
+        );
+      });
+    });
+  }
 </script>
 
 {#if $coords}
   <g class="column-group">
     {#each $coords as group, i}
       {#each group as d, j}
-        <rect
+        <polygon
           class="column-rect"
           data-id={j}
-          x={d.x}
-          y={mode == 'barcode' || (mode == 'comparison' && i > 0)
-            ? $yScale(d.y) - markerWidth / 2
-            : $yScale(d.y)}
-          height={(mode == 'barcode' || (mode == 'comparison' && i > 0)) &&
-          $yScale(0) - $yScale(d.h) < markerWidth
-            ? markerWidth
-            : $yScale(0) - $yScale(d.h)}
-          width={d.w}
+          transform="translate(0 {mode == 'barcode' ||
+          (mode == 'comparison' && i > 0)
+            ? -markerWidth / 2
+            : 0})"
+          points={makePoints(d.x0, d.x1, $yScale(d.y0), $yScale(d.y1))}
           stroke={$data[i][j][idKey] == hovered
             ? colorHover
             : $data[i][j][idKey] == selected
@@ -84,11 +97,12 @@
             : $config.z
             ? $zGet($data[i][j])
             : $zRange[0]}
-          on:mouseover={(e) => doHover(e, $data[i][j])}
-          on:mouseleave={(e) => doHover(e, null)}
-          on:focus={(e) => doHover(e, $data[i][j])}
-          on:blur={(e) => doHover(e, null)}
-          on:click={(e) => doSelect(e, $data[i][j])}
+          on:mouseover={hover ? (e) => doHover(e, $data[i][j]) : null}
+          on:mouseleave={hover ? (e) => doHover(e, null) : null}
+          on:focus={select ? (e) => doHover(e, $data[i][j]) : null}
+          on:blur={select ? (e) => doHover(e, null) : null}
+          on:click={select ? (e) => doSelect(e, $data[i][j]) : null}
+          tabindex={hover || select ? 0 : -1}
         />
       {/each}
     {/each}
