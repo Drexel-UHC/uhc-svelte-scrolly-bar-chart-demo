@@ -95,9 +95,17 @@
   // # ============================================================================ #
   //   5.1 Scrolly actions *********
   let step = 'chart01';
+  let mode = 'stacked';
   let actions = {
     chart: {
-      chart01: () => {},
+      chart01: () => {
+        step = 'chart01';
+        mode = 'stacked';
+      },
+      chart02: () => {
+        step = 'chart02';
+        mode = 'grouped';
+      },
     },
   };
 
@@ -137,7 +145,7 @@
               xKey="year"
               yKey="value"
               zKey="group"
-              mode={'stacked'}
+              {mode}
               title="Stacked / comparative column chart"
               {hover}
               {hovered}
@@ -170,15 +178,21 @@
   <div slot="foreground">
     <section data-id="chart01">
       <div class="col-medium">
-        <p>
-          Trend of the cost of <strong>some fruits</strong> over time.
-        </p>
+        <p>This is a stacked column chart</p>
+      </div>
+    </section>
+    <section data-id="chart02">
+      <div class="col-medium">
+        <p>This is a grouped column chart.</p>
       </div>
     </section>
   </div>
 </Scroller>
 
 <Divider />
+<div class="stickDev">
+  step: {step}
+</div>
 
 <!-- 
   # ============================================================================ #
@@ -190,6 +204,13 @@
   #  ............... style ...............
 -->
 <style>
+  .stickDev {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: white;
+    padding: 10px;
+  }
   /* Styles specific to elements within the demo */
   :global(svelte-scroller-foreground) {
     pointer-events: none !important;
