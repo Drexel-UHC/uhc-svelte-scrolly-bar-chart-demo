@@ -72,6 +72,12 @@
   export let colorHighlight = 'black';
   export let overlayFill = false;
   export let output = null;
+  export let step;
+  export let groups_selected;
+  export let groups_all;
+  $: index_of_groups_selected = groups_all.map((d, i) => {
+    return groups_selected.includes(d) ? i : -1;
+  });
 
   let el; // Chart DOM element
 
@@ -164,6 +170,10 @@
       colorHighlight,
       animation,
       duration,
+      groups_all: groups_all,
+      groups_selected: groups_selected,
+      step: step,
+      index_of_groups_selected: index_of_groups_selected,
     }}
     let:width
   >

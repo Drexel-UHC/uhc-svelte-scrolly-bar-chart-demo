@@ -21,15 +21,54 @@
     width,
   } = getContext('LayerCake');
 
-  // console.log('SetCoords.svelte');
-  // console.log($data);
+  $: {
+    console.log(`SetCoords.svelte ${$custom.step}`);
+    console.log(`$custom.groups_all`);
+    console.log($custom.groups_all);
+    console.log(`$custom.groups_selected`);
+    console.log($custom.groups_selected);
+    console.log(`index_of_groups_selected`);
+    console.log($custom.index_of_groups_selected);
+  }
+
   let coords = $custom.coords;
   let type = $custom.type;
   let prevWidth = $width;
 
-  $: setCoords($data, $custom, $x, $y, $r, $width);
+  $: setCoords(
+    $data,
+    $custom,
+    $x,
+    $y,
+    $r,
+    $width,
+    $custom.index_of_groups_selected
+  );
 
-  function setCoords(data, custom, x, y, r, width) {
+  function setCoords(
+    original_data,
+    custom,
+    x,
+    y,
+    r,
+    width,
+    index_of_groups_selected
+  ) {
+    console.log(`within ---------------`);
+    let data = JSON.parse(JSON.stringify(original_data));
+    console.log($xScale.bandwidth());
+    console.log(`index_of_groups_selected`);
+    console.log(index_of_groups_selected);
+    index_of_groups_selected.map((d, i) => {
+      if (d < 0) {
+        data[i].map((x, ii) => {
+          console.log(`${i} ${ii}`);
+          console.log(data[i]);
+          data[i][ii].value = 0;
+        });
+      }
+    });
+
     let mode = custom.mode;
     let padding = custom.padding;
     let duration = custom.animation && width == prevWidth ? custom.duration : 0;
@@ -164,6 +203,9 @@
     if (type == 'dotplot') {
       console.log(newcoords), 'dot plot';
     }
+    console.log(`newcoords`);
+    console.log(newcoords);
+
     coords.set(newcoords, { duration });
   }
 </script>

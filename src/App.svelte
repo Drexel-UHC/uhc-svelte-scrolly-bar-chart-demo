@@ -97,26 +97,27 @@
   let step = 'chart01';
   let title = 'Stacked';
   let mode = 'stacked';
-  let groups_selected = ['apples', 'bananas', 'cherries', 'dates'];
+  let groups_all = ['apples', 'bananas', 'cherries', 'dates'];
+  let groups_selected = groups_all;
   let actions = {
     chart: {
       chart01: () => {
         step = 'chart01';
         title = 'Stacked';
         mode = 'stacked';
-        groups_selected = ['apples', 'bananas', 'cherries', 'dates'];
+        groups_selected = groups_all;
       },
       chart02: () => {
         step = 'chart02';
         title = 'Barcode';
         mode = 'barcode';
-        groups_selected = ['apples', 'bananas', 'cherries', 'dates'];
+        groups_selected = groups_all;
       },
       chart03: () => {
         step = 'chart03';
         title = 'Grouped Column chart';
         mode = 'grouped';
-        groups_selected = ['apples', 'bananas', 'cherries', 'dates'];
+        groups_selected = groups_all;
       },
       chart04: () => {
         step = 'chart04';
@@ -173,7 +174,9 @@
               on:select={doSelect}
               {animation}
               legend
+              {groups_all}
               {groups_selected}
+              {step}
             >
               <!-- <div slot="options" class="controls small">
                 {#each barchart2.options as option}

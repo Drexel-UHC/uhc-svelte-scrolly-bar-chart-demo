@@ -97,6 +97,7 @@
             : $config.z
             ? $zGet($data[i][j])
             : $zRange[0]}
+          opacity={1}
           on:mouseover={hover ? (e) => doHover(e, $data[i][j]) : null}
           on:mouseleave={hover ? (e) => doHover(e, null) : null}
           on:focus={select ? (e) => doHover(e, $data[i][j]) : null}
