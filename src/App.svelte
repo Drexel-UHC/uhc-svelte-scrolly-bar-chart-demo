@@ -24,89 +24,8 @@
   // 2. Project sepecific imports
   import { getData, setColors, getBreaks, getColor } from './utils.js';
   import { colors } from './config.js';
-  import { BarChart } from '../libs/@onsvisual/svelte-charts';
-  let data = [
-    {
-      year: 2017,
-      value: 320,
-      group: 'apples',
-    },
-    {
-      year: 2017,
-      value: 480,
-      group: 'bananas',
-    },
-    {
-      year: 2017,
-      value: 640,
-      group: 'cherries',
-    },
-    {
-      year: 2017,
-      value: 400,
-      group: 'dates',
-    },
-    {
-      year: 2018,
-      value: 640,
-      group: 'apples',
-    },
-    {
-      year: 2018,
-      value: 960,
-      group: 'bananas',
-    },
-    {
-      year: 2018,
-      value: 640,
-      group: 'cherries',
-    },
-    {
-      year: 2018,
-      value: 400,
-      group: 'dates',
-    },
-    {
-      year: 2019,
-      value: 1600,
-      group: 'apples',
-    },
-    {
-      year: 2019,
-      value: 1440,
-      group: 'bananas',
-    },
-    {
-      year: 2019,
-      value: 960,
-      group: 'cherries',
-    },
-    {
-      year: 2019,
-      value: 400,
-      group: 'dates',
-    },
-    {
-      year: 2020,
-      value: 3840,
-      group: 'apples',
-    },
-    {
-      year: 2020,
-      value: 1920,
-      group: 'bananas',
-    },
-    {
-      year: 2020,
-      value: 960,
-      group: 'cherries',
-    },
-    {
-      year: 2020,
-      value: 400,
-      group: 'dates',
-    },
-  ];
+  import { BarChart, ColumnChart } from '../libs/@onsvisual/svelte-charts';
+
   // # ============================================================================ #
   // 3. Core config
   // Set theme globally (options are 'light', 'dark' or 'lightblue')
@@ -180,68 +99,28 @@
 
   // # ============================================================================ #
   //   5.5 Initialisation code (get data)
-
-  // getData(`./data/data_le.csv`).then((arr) => {
-  //   data = arr;
-  // });
+  let groupedData;
+  let flatData;
+  getData(`./data/fruits_grouped_data.csv`).then((arr) => {
+    groupedData = arr;
+    console.log('groupedData');
+    console.log(arr);
+  });
+  getData(`./data/fruits_flat_data.csv`).then((arr) => {
+    flatData = arr;
+    console.log('flatData');
+    console.log(arr);
+  });
   const doHover = (e) => (hovered = e.detail.id);
   const doSelect = (e) => (selected = e.detail.id);
   const doHoverScatter = (e) => (hoveredScatter = e.detail.id);
   const doSelectScatter = (e) => (selectedScatter = e.detail.id);
-
-  console.log('data');
-  console.log(data);
 </script>
 
 <!-- 
   # ============================================================================ #
   #  ............... markup ...............
 -->
-
-<!-- 
-  # ============================================================================ #
-  #  Header
--->
-<!-- 
-<UHCHeader filled={true} center={false} />
-
-<Header
-  bgcolor="#206095"
-  bgfixed={true}
-  theme="dark"
-  center={false}
-  short={true}
->
-  <h1>UHC Svelte Scrolly Template</h1>
-  <p class="text-big" style="margin-top: 5px">
-    Epsom Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi
-    voluptate sed quisquam inventore quia odio illo maiores cum enim, aspernatur
-    laboriosam amet ipsam, eligendi optio dolor doloribus minus! Dicta, laborum?
-  </p>
-  <p style="margin-top: 20px">DD MMM YYYY</p>
-  <p>
-    <Toggle
-      label="Animation {animation ? 'on' : 'off'}"
-      mono={true}
-      bind:checked={animation}
-    />
-  </p>
-  <div style="margin-top: 90px;">
-    <Arrow color="white" {animation}>Scroll to begin</Arrow>
-  </div>
-</Header> -->
-<!-- 
-  # ============================================================================ #
-  #  Intro
--->
-<!-- <Section>
-  <h2>Line Chart</h2>
-  <p style="padding-bottom: 1rem;">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit commodi
-    aperiam autem doloremque, sapiente est facere quidem praesentium expedita
-    rerum reprehenderit esse fuga, animi pariatur itaque ullam optio minima eum?
-  </p>
-</Section> -->
 
 <Divider />
 
@@ -255,13 +134,15 @@
     <figure>
       <div class="col-wide height-full">
         <div class="chart">
-          {#if data && id}
-            <BarChart
-              data={data.filter((d) => d.group == barchart1.selected)}
-              xKey="value"
-              yKey="year"
-              title="Single variable bar chart"
-              footer="Source: Fictitious data about fruit, 2020."
+          {#if flatData && groupedData && id}
+            <ColumnChart
+              {flatData}
+              {groupedData}
+              xKey="year"
+              yKey="value"
+              zKey="group"
+              mode={barchart2.selected}
+              title="Stacked / comparative column chart"
               {hover}
               {hovered}
               on:hover={doHover}
@@ -269,20 +150,21 @@
               {selected}
               on:select={doSelect}
               {animation}
+              legend
             >
               <div slot="options" class="controls small">
-                {#each barchart1.options as option}
+                {#each barchart2.options as option}
                   <label
                     ><input
                       type="radio"
-                      bind:group={barchart1.selected}
+                      bind:group={barchart2.selected}
                       value={option}
                     />
                     {option}</label
                   >
                 {/each}
               </div>
-            </BarChart>
+            </ColumnChart>
           {/if}
         </div>
       </div>
@@ -297,57 +179,6 @@
         </p>
       </div>
     </section>
-    <section data-id="chart02">
-      <div class="col-medium">
-        <p>
-          Let <strong>zoom in on y-axis</strong> range of interest to better visualize
-          the data.
-        </p>
-      </div>
-    </section>
-    <section data-id="chart03">
-      <div class="col-medium">
-        <p>
-          We can <strong>add data</strong> to introduce a new group.
-        </p>
-      </div>
-    </section>
-    <section data-id="chart04">
-      <div class="col-medium">
-        <p>
-          We can <strong>remove data</strong> to emphasize a narrative.
-        </p>
-      </div>
-    </section>
-    <section data-id="chart05">
-      <div class="col-medium">
-        <p>
-          We can also <strong>focus on certain ranges on the x-axis</strong> which
-          in this case is years.
-        </p>
-        <p>Between 1980 and 2000 tHe price of flowers increases steadily.</p>
-      </div>
-    </section>
-    <section data-id="chart06">
-      <div class="col-medium">
-        <p>Flower prices starts to stagnate after the year 2000.</p>
-      </div>
-    </section>
-    <section data-id="chart07">
-      <div class="col-medium">
-        <p>In fact after 2010, flowers prices start dropping.</p>
-      </div>
-    </section>
-    <section data-id="chart08">
-      <div class="col-medium">
-        <p>So overall we see three phases in trends in Life Expectancy</p>
-        <ul>
-          <li style="color:green">2000 - 1998 Increasing</li>
-          <li style="color:#FFBF00">1999 - 2009 Stagnation</li>
-          <li style="color:red">2010 - 2018 Decreasing</li>
-        </ul>
-      </div>
-    </section>
   </div>
 </Scroller>
 
@@ -357,26 +188,6 @@
   # ============================================================================ #
   #  Conclusion
 -->
-
-<Section>
-  <h2>Conclusions</h2>
-  <p>
-    Epsom Lorem ipsum dolor sit amet consectetur adipisicing elit. A magni
-    ducimus amet repellendus cupiditate? Ad optio saepe ducimus. At eveniet ad
-    delectus enim voluptatibus. Quaerat eligendi eaque corrupti possimus
-    molestiae?
-  </p>
-</Section>
-
-<!-- 
-  # ============================================================================ #
-  #  Footer
--->
-
-<UHCFooter />
-<div class="stickDev">
-  step: {step}
-</div>
 
 <!-- 
   # ============================================================================ #
