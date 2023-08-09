@@ -95,31 +95,34 @@
   // # ============================================================================ #
   //   5.1 Scrolly actions *********
   let step = 'chart01';
-  let title = 'Stacked Column chart';
+  let title = 'Stacked';
   let mode = 'stacked';
+  let groups_selected = ['apples', 'bananas', 'cherries', 'dates'];
   let actions = {
     chart: {
       chart01: () => {
         step = 'chart01';
-        title = 'Stacked Column chart';
+        title = 'Stacked';
         mode = 'stacked';
+        groups_selected = ['apples', 'bananas', 'cherries', 'dates'];
       },
       chart02: () => {
         step = 'chart02';
-        title = 'Grouped Column chart';
-        mode = 'grouped';
+        title = 'Barcode';
+        mode = 'barcode';
+        groups_selected = ['apples', 'bananas', 'cherries', 'dates'];
       },
       chart03: () => {
         step = 'chart03';
-        title = 'Comparison Column chart';
-
-        mode = 'comparison';
+        title = 'Grouped Column chart';
+        mode = 'grouped';
+        groups_selected = ['apples', 'bananas', 'cherries', 'dates'];
       },
       chart04: () => {
         step = 'chart04';
-        title = 'Barcode Column chart';
-
-        mode = 'barcode';
+        title = 'Grouped Column chart';
+        mode = 'grouped';
+        groups_selected = ['apples', 'bananas'];
       },
     },
   };
@@ -170,6 +173,7 @@
               on:select={doSelect}
               {animation}
               legend
+              {groups_selected}
             >
               <!-- <div slot="options" class="controls small">
                 {#each barchart2.options as option}
@@ -193,17 +197,17 @@
   <div slot="foreground">
     <section data-id="chart01">
       <div class="col-medium">
-        <p>This is a stacked column chart</p>
+        <p>This is a <strong>stacked</strong> column chart</p>
       </div>
     </section>
     <section data-id="chart02">
       <div class="col-medium">
-        <p>This is a grouped column chart.</p>
+        <p>This is a <strong>barcode</strong> chart.</p>
       </div>
     </section>
     <section data-id="chart03">
       <div class="col-medium">
-        <p>Mode = 'comparison'.</p>
+        <p>This is a <strong>grouped</strong> bar chart</p>
       </div>
     </section>
     <section data-id="chart04">

@@ -51,21 +51,21 @@
     }
   }
 
-  $: {
-    console.log('Column.svelte');
-    console.log(`$coords`);
-    console.log($coords);
-    $coords.map((group, i) => {
-      group.map((d, j) => {
-        console.log(`$coords[${i}][${j}]`);
-        console.log(d);
-        console.log(
-          (mode == 'barcode' || (mode == 'comparison' && i > 0)) &&
-            $yScale(0) - $yScale(d.h) < markerWidth
-        );
-      });
-    });
-  }
+  // $: {
+  //   console.log('Column.svelte');
+  //   console.log(`$coords`);
+  //   console.log($coords);
+  //   $coords.map((group, i) => {
+  //     group.map((d, j) => {
+  //       console.log(`$coords[${i}][${j}]`);
+  //       console.log(d);
+  //       console.log(
+  //         (mode == 'barcode' || (mode == 'comparison' && i > 0)) &&
+  //           $yScale(0) - $yScale(d.h) < markerWidth
+  //       );
+  //     });
+  //   });
+  // }
 </script>
 
 {#if $coords}
