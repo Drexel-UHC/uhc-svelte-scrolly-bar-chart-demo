@@ -95,16 +95,31 @@
   // # ============================================================================ #
   //   5.1 Scrolly actions *********
   let step = 'chart01';
+  let title = 'Stacked Column chart';
   let mode = 'stacked';
   let actions = {
     chart: {
       chart01: () => {
         step = 'chart01';
+        title = 'Stacked Column chart';
         mode = 'stacked';
       },
       chart02: () => {
         step = 'chart02';
+        title = 'Grouped Column chart';
         mode = 'grouped';
+      },
+      chart03: () => {
+        step = 'chart03';
+        title = 'Comparison Column chart';
+
+        mode = 'comparison';
+      },
+      chart04: () => {
+        step = 'chart04';
+        title = 'Barcode Column chart';
+
+        mode = 'barcode';
       },
     },
   };
@@ -146,7 +161,7 @@
               yKey="value"
               zKey="group"
               {mode}
-              title="Stacked / comparative column chart"
+              {title}
               {hover}
               {hovered}
               on:hover={doHover}
@@ -184,6 +199,16 @@
     <section data-id="chart02">
       <div class="col-medium">
         <p>This is a grouped column chart.</p>
+      </div>
+    </section>
+    <section data-id="chart03">
+      <div class="col-medium">
+        <p>Mode = 'comparison'.</p>
+      </div>
+    </section>
+    <section data-id="chart04">
+      <div class="col-medium">
+        <p>Mode = 'barcode'.</p>
       </div>
     </section>
   </div>
