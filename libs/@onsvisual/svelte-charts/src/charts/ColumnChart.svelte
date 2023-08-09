@@ -129,12 +129,6 @@
     : zKey
     ? flatData.map((d) => d[zKey]).filter(distinct)
     : null;
-
-  $: {
-    console.log('888888888888888888888');
-    console.log(xDomain);
-    console.log(_zDomain);
-  }
 </script>
 
 {#if title}

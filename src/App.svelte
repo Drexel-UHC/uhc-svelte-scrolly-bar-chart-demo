@@ -20,6 +20,13 @@
   import Toggle from './ui/Toggle.svelte';
   import Arrow from './ui/Arrow.svelte';
 
+  import { groupedData } from './data/grouped_data.js';
+  import { flatData } from './data/flat_data.js';
+
+  console.log(`JSON IMPORTS`);
+  console.log(groupedData);
+  console.log(flatData);
+
   // # ============================================================================ #
   // 2. Project sepecific imports
   import { getData, setColors, getBreaks, getColor } from './utils.js';
@@ -99,18 +106,7 @@
 
   // # ============================================================================ #
   //   5.5 Initialisation code (get data)
-  let groupedData;
-  let flatData;
-  getData(`./data/fruits_grouped_data.csv`).then((arr) => {
-    groupedData = arr;
-    console.log('groupedData');
-    console.log(arr);
-  });
-  getData(`./data/fruits_flat_data.csv`).then((arr) => {
-    flatData = arr;
-    console.log('flatData');
-    console.log(arr);
-  });
+
   const doHover = (e) => (hovered = e.detail.id);
   const doSelect = (e) => (selected = e.detail.id);
   const doHoverScatter = (e) => (hoveredScatter = e.detail.id);
