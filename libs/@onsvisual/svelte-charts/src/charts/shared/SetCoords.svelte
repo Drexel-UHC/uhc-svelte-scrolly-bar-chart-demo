@@ -36,23 +36,21 @@
     width,
     groups_select_array
   ) {
-    let data = JSON.parse(JSON.stringify(original_data));
-    custom.groups_select_array.map((d, i) => {
-      if (d < 0) {
-        data[i].map((x, ii) => {
-          // console.log(`${i} ${ii}`);
-          // console.log(data[i]);
-          // data[i][ii].value = 0;
-        });
-      }
-    });
-
     let mode = custom.mode;
     let padding = custom.padding;
     let duration = custom.animation && width == prevWidth ? custom.duration : 0;
 
     prevWidth = width;
-
+    let data = JSON.parse(JSON.stringify(original_data));
+    custom.groups_select_array.map((d, i) => {
+      if (d < 0 && mode != 'grouped') {
+        data[i].map((x, ii) => {
+          // console.log(`${i} ${ii}`);
+          // console.log(data[i]);
+          data[i][ii].value = 0;
+        });
+      }
+    });
     let newcoords;
     if (type == 'bar') {
       let xpos = [];

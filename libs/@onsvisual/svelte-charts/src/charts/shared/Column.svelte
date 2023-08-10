@@ -14,17 +14,6 @@
 
   let coords = $custom.coords;
   let idKey = $custom.idKey;
-  $: {
-    console.log(`Column.svelte ${$custom.step}`);
-    //   console.log(`$custom.groups_all`);
-    //   console.log($custom.groups_all);
-    //   console.log(`$custom.groups_selected`);
-    //   console.log($custom.groups_selected);
-    //   console.log(`groups_select_array`);
-    //   console.log($custom.groups_select_array);
-    console.log(`coord`);
-    console.log($coords);
-  }
 
   let colorHover = $custom.colorHover ? $custom.colorHover : 'orange';
   let colorSelect = $custom.colorSelect ? $custom.colorSelect : 'black';
@@ -62,21 +51,21 @@
     }
   }
 
-  // $: {
-  //   console.log('Column.svelte');
-  //   console.log(`$coords`);
-  //   console.log($coords);
-  //   $coords.map((group, i) => {
-  //     group.map((d, j) => {
-  //       console.log(`$coords[${i}][${j}]`);
-  //       console.log(d);
-  //       console.log(
-  //         (mode == 'barcode' || (mode == 'comparison' && i > 0)) &&
-  //           $yScale(0) - $yScale(d.h) < markerWidth
-  //       );
-  //     });
-  //   });
-  // }
+  $: {
+    console.log('Column.svelte');
+    console.log($config);
+    // $coords.map((group, i) => {
+    //   group.map((d, j) => {
+    //     // console.log(`$coords[${i}][${j}]`);
+    //     // console.log(d);
+    //     const color_tmp =
+    // $custom.aggregate_stacked && mode == 'stacked'
+    //   ? '#e85da9'
+    //   : $zGet($data[i][j]);
+    //     console.log(color_tmp);
+    //   });
+    // });
+  }
 </script>
 
 {#if $coords}
@@ -105,6 +94,8 @@
             ? colorSelect
             : overlayFill && highlighted.includes($data[i][j][idKey])
             ? colorHighlight
+            : $config.z && $custom.aggregate_stacked && mode == 'stacked'
+            ? '#e85da9'
             : $config.z
             ? $zGet($data[i][j])
             : $zRange[0]}

@@ -75,6 +75,8 @@
   export let step;
   export let groups_selected;
   export let groups_all;
+  export let aggregate_stacked;
+
   $: groups_select_array = groups_all.map((d, i) => {
     return groups_selected.includes(d) ? i : -1;
   });
@@ -174,6 +176,7 @@
       groups_selected: groups_selected,
       step: step,
       groups_select_array: groups_select_array,
+      aggregate_stacked: aggregate_stacked,
     }}
     let:width
   >

@@ -93,13 +93,20 @@
   // THese will change across projects
 
   // # ============================================================================ #
-  //   5.1 Scrolly actions *********
+  //   5.1 Helper cfunctions
+  const doHover = (e) => (hovered = e.detail.id);
+  const doSelect = (e) => (selected = e.detail.id);
+  const doHoverScatter = (e) => (hoveredScatter = e.detail.id);
+  const doSelectScatter = (e) => (selectedScatter = e.detail.id);
+
+  // # ============================================================================ #
+  //   5.2 Scrolly actions *********
   let step = 'chart01';
   let title = 'Stacked';
   let mode = 'stacked';
   let groups_all = ['apples', 'bananas', 'cherries', 'dates'];
   let groups_selected = groups_all;
-
+  let aggregate_stacked = false;
   let actions = {
     chart: {
       chart01: () => {
@@ -107,38 +114,38 @@
         title = 'Stacked';
         mode = 'stacked';
         groups_selected = groups_all;
+        aggregate_stacked = false;
       },
       chart02: () => {
         step = 'chart02';
         title = 'Barcode';
         mode = 'barcode';
         groups_selected = groups_all;
+        aggregate_stacked = false;
       },
       chart03: () => {
         step = 'chart03';
         title = 'Grouped Column chart';
         mode = 'grouped';
         groups_selected = groups_all;
+        aggregate_stacked = false;
       },
       chart04: () => {
         step = 'chart04';
-        title = 'Grouped Column chart';
+        // title = ' ';
         mode = 'grouped';
         groups_selected = ['bananas', 'cherries'];
+        aggregate_stacked = false;
+      },
+      chart05: () => {
+        step = 'chart05';
+        // title = 'Grouped Column chart';
+        mode = 'stacked';
+        groups_selected = ['bananas', 'cherries'];
+        aggregate_stacked = true;
       },
     },
   };
-
-  // # ============================================================================ #
-  //   5.4 State
-
-  // # ============================================================================ #
-  //   5.5 Initialisation code (get data)
-
-  const doHover = (e) => (hovered = e.detail.id);
-  const doSelect = (e) => (selected = e.detail.id);
-  const doHoverScatter = (e) => (hoveredScatter = e.detail.id);
-  const doSelectScatter = (e) => (selectedScatter = e.detail.id);
 </script>
 
 <!-- 
@@ -178,6 +185,7 @@
               {groups_all}
               {groups_selected}
               {step}
+              {aggregate_stacked}
             >
               <!-- <div slot="options" class="controls small">
                 {#each barchart2.options as option}
@@ -217,6 +225,11 @@
     <section data-id="chart04">
       <div class="col-medium">
         <p>We can <strong>add/remove groups</strong> from the bar chart.</p>
+      </div>
+    </section>
+    <section data-id="chart05">
+      <div class="col-medium">
+        <p>We can also <strong>aggregate</strong> groups</p>
       </div>
     </section>
   </div>
