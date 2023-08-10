@@ -75,7 +75,7 @@
   export let step;
   export let groups_selected;
   export let groups_all;
-  $: index_of_groups_selected = groups_all.map((d, i) => {
+  $: groups_select_array = groups_all.map((d, i) => {
     return groups_selected.includes(d) ? i : -1;
   });
 
@@ -173,7 +173,7 @@
       groups_all: groups_all,
       groups_selected: groups_selected,
       step: step,
-      index_of_groups_selected: index_of_groups_selected,
+      groups_select_array: groups_select_array,
     }}
     let:width
   >

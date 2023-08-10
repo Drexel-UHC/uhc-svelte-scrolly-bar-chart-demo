@@ -14,6 +14,17 @@
 
   let coords = $custom.coords;
   let idKey = $custom.idKey;
+  $: {
+    console.log(`Column.svelte ${$custom.step}`);
+    //   console.log(`$custom.groups_all`);
+    //   console.log($custom.groups_all);
+    //   console.log(`$custom.groups_selected`);
+    //   console.log($custom.groups_selected);
+    //   console.log(`groups_select_array`);
+    //   console.log($custom.groups_select_array);
+    console.log(`coord`);
+    console.log($coords);
+  }
 
   let colorHover = $custom.colorHover ? $custom.colorHover : 'orange';
   let colorSelect = $custom.colorSelect ? $custom.colorSelect : 'black';
@@ -97,7 +108,7 @@
             : $config.z
             ? $zGet($data[i][j])
             : $zRange[0]}
-          opacity={1}
+          opacity={$coords[i][j].opacity}
           on:mouseover={hover ? (e) => doHover(e, $data[i][j]) : null}
           on:mouseleave={hover ? (e) => doHover(e, null) : null}
           on:focus={select ? (e) => doHover(e, $data[i][j]) : null}

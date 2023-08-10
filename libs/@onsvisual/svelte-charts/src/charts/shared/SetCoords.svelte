@@ -21,29 +21,11 @@
     width,
   } = getContext('LayerCake');
 
-  $: {
-    console.log(`SetCoords.svelte ${$custom.step}`);
-    console.log(`$custom.groups_all`);
-    console.log($custom.groups_all);
-    console.log(`$custom.groups_selected`);
-    console.log($custom.groups_selected);
-    console.log(`index_of_groups_selected`);
-    console.log($custom.index_of_groups_selected);
-  }
-
   let coords = $custom.coords;
   let type = $custom.type;
   let prevWidth = $width;
 
-  $: setCoords(
-    $data,
-    $custom,
-    $x,
-    $y,
-    $r,
-    $width,
-    $custom.index_of_groups_selected
-  );
+  $: setCoords($data, $custom, $x, $y, $r, $width, $custom.groups_select_array);
 
   function setCoords(
     original_data,
@@ -52,19 +34,15 @@
     y,
     r,
     width,
-    index_of_groups_selected
+    groups_select_array
   ) {
-    console.log(`within ---------------`);
     let data = JSON.parse(JSON.stringify(original_data));
-    console.log($xScale.bandwidth());
-    console.log(`index_of_groups_selected`);
-    console.log(index_of_groups_selected);
-    index_of_groups_selected.map((d, i) => {
+    custom.groups_select_array.map((d, i) => {
       if (d < 0) {
         data[i].map((x, ii) => {
-          console.log(`${i} ${ii}`);
-          console.log(data[i]);
-          data[i][ii].value = 0;
+          // console.log(`${i} ${ii}`);
+          // console.log(data[i]);
+          // data[i][ii].value = 0;
         });
       }
     });
@@ -125,7 +103,10 @@
       newcoords = data.map((d, i) => {
         // console.log(`column ${mode}: ${i}`);
         // console.log(d);
+
         return d.map((e, j) => {
+          // console.log(`${i} ${j}`);
+          // console.log(e);
           if (!ypos[j]) ypos[j] = 0;
           if (!yneg[j]) yneg[j] = 0;
           let x0 =
@@ -170,7 +151,8 @@
           } else {
             yneg[j] += y(e);
           }
-          return { x0, x1, y0, y1 };
+          let opacity = custom.groups_select_array[i] > -1 ? 1 : 0;
+          return { x0, x1, y0, y1, opacity };
         });
       });
     } else if (type == 'scatter') {

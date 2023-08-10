@@ -99,6 +99,7 @@
   let mode = 'stacked';
   let groups_all = ['apples', 'bananas', 'cherries', 'dates'];
   let groups_selected = groups_all;
+
   let actions = {
     chart: {
       chart01: () => {
@@ -123,7 +124,7 @@
         step = 'chart04';
         title = 'Grouped Column chart';
         mode = 'grouped';
-        groups_selected = ['apples', 'bananas'];
+        groups_selected = ['bananas', 'cherries'];
       },
     },
   };
@@ -215,7 +216,7 @@
     </section>
     <section data-id="chart04">
       <div class="col-medium">
-        <p>Mode = 'barcode'.</p>
+        <p>We can <strong>add/remove groups</strong> from the bar chart.</p>
       </div>
     </section>
   </div>
